@@ -1,0 +1,5 @@
+include README.md LICENSE CHANGELOG.md
+recursive-include prosodia *.py
+recursive-include prosodia/data *.json *.tsv
+recursive-exclude tests *
+global-exclude *.pyc __pycache__
