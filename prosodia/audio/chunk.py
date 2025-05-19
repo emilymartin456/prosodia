@@ -47,12 +47,8 @@ class AudioChunk:
 
     def append(self, other: AudioChunk) -> AudioChunk:
         if other.sample_rate != self.sample_rate:
-            raise ValueError(
-                f"sample rate mismatch: {self.sample_rate} vs {other.sample_rate}"
-            )
-        return AudioChunk(
-            np.concatenate([self.samples, other.samples]), self.sample_rate
-        )
+            raise ValueError(f"sample rate mismatch: {self.sample_rate} vs {other.sample_rate}")
+        return AudioChunk(np.concatenate([self.samples, other.samples]), self.sample_rate)
 
     def normalized(self, target_peak: float = 0.95) -> AudioChunk:
         """Scale so the loudest sample sits at ``target_peak`` (no-op if silent)."""

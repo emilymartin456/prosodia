@@ -101,9 +101,7 @@ class Config:
         try:
             import yaml
         except ModuleNotFoundError as exc:  # pragma: no cover - optional dep
-            raise ConfigError(
-                "reading YAML config needs PyYAML; install prosodia[yaml]"
-            ) from exc
+            raise ConfigError("reading YAML config needs PyYAML; install prosodia[yaml]") from exc
         text = Path(path).read_text(encoding="utf-8")
         data = yaml.safe_load(text) or {}
         if not isinstance(data, dict):
