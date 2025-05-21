@@ -21,7 +21,7 @@ def resample(chunk: AudioChunk, target_rate: int) -> AudioChunk:
 
     n_out = max(1, round(len(chunk) * target_rate / chunk.sample_rate))
     # Sample positions in the source timeline, endpoint-inclusive.
-    src_idx = np.linspace(0.0, len(chunk) - 1, num=n_out, dtype=np.float64)
-    grid = np.arange(len(chunk), dtype=np.float64)
+    src_idx: np.ndarray = np.linspace(0.0, len(chunk) - 1, num=n_out, dtype=np.float64)
+    grid: np.ndarray = np.arange(len(chunk), dtype=np.float64)
     out = np.interp(src_idx, grid, chunk.samples).astype(np.float32)
     return AudioChunk(out, target_rate)
