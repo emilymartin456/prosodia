@@ -50,9 +50,9 @@ def apply_bu_yi_sandhi(syllables: list[Syllable]) -> list[Syllable]:
     for i in range(len(syllables) - 1):
         base = _base(syllables[i])
         nxt = syllables[i + 1].tone
-        if base == "bu":
-            _retone(syllables[i], 2 if nxt == 4 else 4)
-        elif base == "yi":
+        # 不: tone 2 before tone 4, else tone 4.
+        # 一: tone 2 before tone 4, tone 4 before tones 1/2/3 — same arithmetic.
+        if base in ("bu", "yi"):
             _retone(syllables[i], 2 if nxt == 4 else 4)
     return syllables
 
