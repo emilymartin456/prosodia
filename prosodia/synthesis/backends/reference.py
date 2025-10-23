@@ -71,6 +71,7 @@ class FormantSynthBackend(AcousticBackend):
         for center, bw, amp in zip(formants, _FORMANT_BW, _FORMANT_AMP):
             response += amp / (1.0 + ((freqs - center) / bw) ** 2)
         filtered = np.fft.irfft(spectrum * response, n=len(source))
+        filtered -= float(np.mean(filtered))  # drop DC so segment joins stay click-free
         peak = float(np.max(np.abs(filtered))) or 1.0
         return filtered / peak
 
@@ -79,7 +80,7 @@ class FormantSynthBackend(AcousticBackend):
         cls = consonant_class(segment.symbol)
         energy = segment.energy or 1.0
         if cls in ("nasal", "approximant"):
-            f0 = np.full(n, self.murmur_f0, dtype=np.float64)
+            f0: np.ndarray = np.full(n, self.murmur_f0, dtype=np.float64)
             return 0.6 * self._voiced(f0, MURMUR_FORMANTS, sample_rate, n, energy)
         if cls == "plosive":
             return self._plosive(segment.symbol, sample_rate, n, energy)
@@ -87,7 +88,7 @@ class FormantSynthBackend(AcousticBackend):
         return self._fricative(segment.symbol, sample_rate, n, energy)
 
     def _plosive(self, symbol: str, sample_rate: int, n: int, energy: float) -> np.ndarray:
-        out = np.zeros(n, dtype=np.float32)
+        out: np.ndarray = np.zeros(n, dtype=np.float32)
         burst_len = min(n, max(1, round(0.02 * sample_rate)))
         start = n - burst_len
         rng = np.random.default_rng(_stable_seed(symbol, n))
@@ -106,6 +107,7 @@ class FormantSynthBackend(AcousticBackend):
         else:
             tilt = np.clip(1.2 - freqs / 6000.0, 0.1, 1.0)
         shaped = np.fft.irfft(spectrum * tilt, n=n)
+        shaped -= float(np.mean(shaped))  # drop DC so segment joins stay click-free
         peak = float(np.max(np.abs(shaped))) or 1.0
         env = self._amp_env(n)
         return (shaped / peak * env * 0.35 * self.gain * energy).astype(np.float32)
@@ -120,7 +122,7 @@ class FormantSynthBackend(AcousticBackend):
 
     @staticmethod
     def _amp_env(n: int, fade: int = 64) -> np.ndarray:
-        env = np.ones(n, dtype=np.float64)
+        env: np.ndarray = np.ones(n, dtype=np.float64)
         f = min(fade, n // 2)
         if f > 0:
             ramp = 0.5 * (1.0 - np.cos(np.linspace(0.0, np.pi, f)))
