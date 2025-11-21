@@ -10,5 +10,6 @@ interchangeably.
 from __future__ import annotations
 
 from prosodia.llm.base import LLMAdapter, ProsodyPrediction
+from prosodia.llm.rulebased import RuleBasedAdapter
 
-__all__ = ["LLMAdapter", "ProsodyPrediction"]
+__all__ = ["LLMAdapter", "ProsodyPrediction", "RuleBasedAdapter"]
