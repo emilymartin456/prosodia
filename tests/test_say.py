@@ -20,9 +20,7 @@ def test_emotion_changes_output():
     neutral = tts.say("你好世界", emotion="neutral")
     happy = tts.say("你好世界", emotion="happy")
     # Different prosody -> different waveform length or samples.
-    assert neutral.samples.shape != happy.samples.shape or (
-        neutral.samples != happy.samples
-    ).any()
+    assert neutral.samples.shape != happy.samples.shape or (neutral.samples != happy.samples).any()
 
 
 def test_style_override_rate_changes_duration():

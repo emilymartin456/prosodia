@@ -36,7 +36,5 @@ class LLMAdapter(ABC):
         """Return the spoken-form reading of ``text``."""
 
     @abstractmethod
-    def predict_prosody(
-        self, text: str, language: Language = Language.AUTO
-    ) -> ProsodyPrediction:
+    def predict_prosody(self, text: str, language: Language = Language.AUTO) -> ProsodyPrediction:
         """Return prosodic phrasing and emphasis for ``text``."""

@@ -41,9 +41,7 @@ class CachingAdapter(LLMAdapter):
         path.write_text(json.dumps({"value": value}, ensure_ascii=False), encoding="utf-8")
         return value
 
-    def predict_prosody(
-        self, text: str, language: Language = Language.AUTO
-    ) -> ProsodyPrediction:
+    def predict_prosody(self, text: str, language: Language = Language.AUTO) -> ProsodyPrediction:
         path = self._path("prosody", language, text)
         if path.exists():
             data = json.loads(path.read_text(encoding="utf-8"))
