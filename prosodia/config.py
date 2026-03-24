@@ -79,7 +79,6 @@ class Config:
     @classmethod
     def from_dict(cls, data: dict) -> Config:
         """Build a Config from a (possibly partial) nested dict."""
-        section_types = {f.name: f.type for f in fields(cls)}
         kwargs: dict = {}
         for name, sub_cls in _SECTIONS.items():
             raw = data.get(name, {})
@@ -92,7 +91,6 @@ class Config:
             if unknown:
                 raise ConfigError(f"unknown keys in '{name}': {sorted(unknown)}")
             kwargs[name] = sub_cls(**raw)
-        _ = section_types  # kept for future schema introspection
         return cls(**kwargs).validate()
 
     @classmethod
