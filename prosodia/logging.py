@@ -20,9 +20,7 @@ def get_logger(name: str = "prosodia") -> logging.Logger:
     logger = logging.getLogger(name)
     if not _CONFIGURED:
         handler = logging.StreamHandler()
-        handler.setFormatter(
-            logging.Formatter("%(asctime)s [%(name)s] %(levelname)s %(message)s")
-        )
+        handler.setFormatter(logging.Formatter("%(asctime)s [%(name)s] %(levelname)s %(message)s"))
         root = logging.getLogger("prosodia")
         root.addHandler(handler)
         level = os.environ.get("PROSODIA_LOG_LEVEL", "INFO").upper()
