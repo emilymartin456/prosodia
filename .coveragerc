@@ -1,0 +1,12 @@
+[run]
+source = prosodia
+branch = True
+omit =
+    prosodia/synthesis/backends/neural.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    raise NotImplementedError
+    if TYPE_CHECKING:
+    \.\.\.
