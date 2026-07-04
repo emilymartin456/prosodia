@@ -9,6 +9,7 @@ instead of letting them blow up deep inside synthesis.
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field, fields
+from pathlib import Path
 
 from prosodia.errors import ConfigError
 from prosodia.types import Language
@@ -93,6 +94,21 @@ class Config:
             kwargs[name] = sub_cls(**raw)
         _ = section_types  # kept for future schema introspection
         return cls(**kwargs).validate()
+
+    @classmethod
+    def from_yaml(cls, path: str | Path) -> Config:
+        """Load a Config from a YAML file (requires the ``yaml`` extra)."""
+        try:
+            import yaml
+        except ModuleNotFoundError as exc:  # pragma: no cover - optional dep
+            raise ConfigError(
+                "reading YAML config needs PyYAML; install prosodia[yaml]"
+            ) from exc
+        text = Path(path).read_text(encoding="utf-8")
+        data = yaml.safe_load(text) or {}
+        if not isinstance(data, dict):
+            raise ConfigError(f"{path} must contain a top-level mapping")
+        return cls.from_dict(data)
 
 
 _SECTIONS = {
