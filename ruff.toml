@@ -1,0 +1,17 @@
+# Ruff configuration — lint + format for prosodia.
+target-version = "py39"
+line-length = 100
+
+[lint]
+select = ["E", "F", "I", "W", "UP", "B", "C4", "SIM"]
+ignore = [
+    "E501",   # line length handled by the formatter
+    "B905",   # zip(strict=) not available on 3.9
+]
+
+[lint.per-file-ignores]
+"tests/*" = ["B011"]
+"examples/*" = ["T201"]
+
+[lint.isort]
+known-first-party = ["prosodia"]
