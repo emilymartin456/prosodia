@@ -8,5 +8,12 @@ synthesis plan honours.
 from __future__ import annotations
 
 from prosodia.expressive.emotion import Emotion, get_emotion, list_emotions
+from prosodia.expressive.style import StyleControl, StyleVector
 
-__all__ = ["Emotion", "get_emotion", "list_emotions"]
+__all__ = [
+    "Emotion",
+    "get_emotion",
+    "list_emotions",
+    "StyleControl",
+    "StyleVector",
+]
