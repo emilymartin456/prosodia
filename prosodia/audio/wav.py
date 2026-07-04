@@ -25,4 +25,15 @@ def write_wav(path: str | Path, chunk: AudioChunk) -> None:
 
 def read_wav(path: str | Path) -> AudioChunk:
     """Read a mono WAV file into an :class:`AudioChunk`."""
-    raise NotImplementedError
+    with wave.open(str(path), "rb") as wav:
+        n_channels = wav.getnchannels()
+        width = wav.getsampwidth()
+        rate = wav.getframerate()
+        raw = wav.readframes(wav.getnframes())
+    if width != 2:
+        raise ValueError(f"only 16-bit PCM is supported, got {width * 8}-bit")
+    data = np.frombuffer(raw, dtype="<i2").astype(np.float32) / _INT16_MAX
+    if n_channels > 1:
+        # Downmix to mono by averaging interleaved channels.
+        data = data.reshape(-1, n_channels).mean(axis=1)
+    return AudioChunk(data, rate)
