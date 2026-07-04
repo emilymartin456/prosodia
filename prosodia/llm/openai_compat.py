@@ -40,15 +40,11 @@ class OpenAICompatibleAdapter(LLMAdapter):
         reply = self._chat_fn(build_normalize_messages(text))
         return reply.strip()
 
-    def predict_prosody(
-        self, text: str, language: Language = Language.AUTO
-    ) -> ProsodyPrediction:
+    def predict_prosody(self, text: str, language: Language = Language.AUTO) -> ProsodyPrediction:
         reply = self._chat_fn(build_prosody_messages(text))
         return parse_prosody_json(reply)
 
-    def _build_default_chat_fn(
-        self, base_url: str | None, api_key: str | None
-    ) -> ChatFn:
+    def _build_default_chat_fn(self, base_url: str | None, api_key: str | None) -> ChatFn:
         def chat_fn(messages: list[dict[str, str]]) -> str:
             try:
                 from openai import OpenAI

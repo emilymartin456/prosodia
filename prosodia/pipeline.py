@@ -139,9 +139,7 @@ class ExpressiveTTS:
         )
         return self._engine(resolved).stream(self._prepare_text(text))
 
-    def stream_to_wav(
-        self, text: str, path: str | Path, **kwargs: object
-    ) -> StreamStats:
+    def stream_to_wav(self, text: str, path: str | Path, **kwargs: object) -> StreamStats:
         """Stream-synthesize ``text`` straight to a WAV file, returning stats."""
         resolved = self._resolve_style(
             kwargs.get("emotion"),  # type: ignore[arg-type]

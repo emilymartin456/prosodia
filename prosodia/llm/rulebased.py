@@ -23,9 +23,7 @@ class RuleBasedAdapter(LLMAdapter):
     def normalize(self, text: str, language: Language = Language.AUTO) -> str:
         return Normalizer(language).normalize(text)
 
-    def predict_prosody(
-        self, text: str, language: Language = Language.AUTO
-    ) -> ProsodyPrediction:
+    def predict_prosody(self, text: str, language: Language = Language.AUTO) -> ProsodyPrediction:
         phrases = [p.strip() for p in _PHRASE_SPLIT.split(text) if p.strip()]
         if not phrases:
             phrases = [text.strip()] if text.strip() else []
