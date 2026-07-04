@@ -13,8 +13,8 @@ from dataclasses import dataclass
 import numpy as np
 
 from prosodia.expressive.style import StyleControl
-from prosodia.synthesis.contour import f0_for_tone
 from prosodia.synthesis.duration import phone_duration
+from prosodia.synthesis.f0 import f0_for_tone
 from prosodia.types import ProsodyTargets, Utterance
 
 DEFAULT_F0_FPS = 200

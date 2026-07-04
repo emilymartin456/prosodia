@@ -1,6 +1,6 @@
 import numpy as np
 
-from prosodia.synthesis.contour import f0_for_tone, semitones_to_hz
+from prosodia.synthesis.f0 import f0_for_tone, semitones_to_hz
 
 
 def test_contour_length():
