@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61", "wheel"]
+requires = ["setuptools>=83.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -19,20 +19,20 @@ classifiers = [
 ]
 dynamic = ["version"]
 dependencies = [
-    "numpy>=1.21",
-    "pypinyin>=0.44",
+    "numpy>=2.2.6",
+    "pypinyin>=0.55.0",
 ]
 
 [project.optional-dependencies]
-yaml = ["pyyaml>=6.0"]
-llm = ["openai>=1.0"]
-neural = ["torch>=2.0"]
+yaml = ["pyyaml>=6.0.3"]
+llm = ["openai>=2.44.0"]
+neural = ["torch>=2.12.1"]
 dev = [
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
-    "ruff>=0.4",
-    "mypy>=1.8",
-    "pyyaml>=6.0",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.15.20",
+    "mypy>=2.1.0",
+    "pyyaml>=6.0.3",
 ]
 
 [project.scripts]
