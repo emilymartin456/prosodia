@@ -11,10 +11,29 @@ from prosodia.types import BreakLevel
 
 # Mandarin initials (声母). "" (zero initial) is handled implicitly.
 INITIALS: tuple[str, ...] = (
-    "b", "p", "m", "f", "d", "t", "n", "l",
-    "g", "k", "h", "j", "q", "x",
-    "zh", "ch", "sh", "r", "z", "c", "s",
-    "y", "w",
+    "b",
+    "p",
+    "m",
+    "f",
+    "d",
+    "t",
+    "n",
+    "l",
+    "g",
+    "k",
+    "h",
+    "j",
+    "q",
+    "x",
+    "zh",
+    "ch",
+    "sh",
+    "r",
+    "z",
+    "c",
+    "s",
+    "y",
+    "w",
 )
 
 # Vowel letters used to locate the syllable nucleus inside a final.

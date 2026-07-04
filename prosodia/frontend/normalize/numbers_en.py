@@ -8,13 +8,38 @@ running text.
 from __future__ import annotations
 
 _ONES = (
-    "zero", "one", "two", "three", "four", "five", "six", "seven",
-    "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen",
-    "fifteen", "sixteen", "seventeen", "eighteen", "nineteen",
+    "zero",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five",
+    "six",
+    "seven",
+    "eight",
+    "nine",
+    "ten",
+    "eleven",
+    "twelve",
+    "thirteen",
+    "fourteen",
+    "fifteen",
+    "sixteen",
+    "seventeen",
+    "eighteen",
+    "nineteen",
 )
 _TENS = (
-    "", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy",
-    "eighty", "ninety",
+    "",
+    "",
+    "twenty",
+    "thirty",
+    "forty",
+    "fifty",
+    "sixty",
+    "seventy",
+    "eighty",
+    "ninety",
 )
 _SCALES = (("", 1), ("thousand", 1_000), ("million", 1_000_000), ("billion", 1_000_000_000))
 
@@ -60,9 +85,10 @@ def read_cardinal(n: int) -> str:
         chunks.append(f"{segment} {name}".strip())
     text = " ".join(chunks)
     # Idiomatic "and" before a bare sub-hundred remainder ("... thousand and five").
-    if len(groups) > 1 and 0 < groups[0] < 100 and "hundred" not in _read_below_1000(groups[0]):
-        text = text.rsplit(" ", 1)
-        text = " and ".join(text)
+    if len(groups) > 1 and 0 < groups[0] < 100:
+        head, _, tail = text.rpartition(" ")
+        if head:
+            text = f"{head} and {tail}"
     return text
 
 
