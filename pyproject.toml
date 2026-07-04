@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prosodia"
+description = "Expressive, emotion- and style-controllable TTS framework with an LLM-driven text frontend and streaming inference."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Jiang Que" }]
+keywords = ["tts", "text-to-speech", "expressive", "prosody", "streaming", "chinese"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+dynamic = ["version"]
+dependencies = [
+    "numpy>=1.21",
+    "pypinyin>=0.44",
+]
+
+[project.optional-dependencies]
+yaml = ["pyyaml>=6.0"]
+llm = ["openai>=1.0"]
+neural = ["torch>=2.0"]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.4",
+    "mypy>=1.8",
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+prosodia = "prosodia.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/emilymartin456/prosodia"
+Issues = "https://github.com/emilymartin456/prosodia/issues"
+
+[tool.setuptools.dynamic]
+version = { attr = "prosodia.version.__version__" }
+
+[tool.setuptools.packages.find]
+include = ["prosodia*"]
