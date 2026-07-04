@@ -25,7 +25,7 @@ def _read_below_10000(n: int) -> str:
     """Read 0 <= n < 10000 without the group's big unit."""
     if n == 0:
         return ""
-    out = []
+    out: list[str] = []
     pending_zero = False
     for pos in range(3, -1, -1):
         unit = 10**pos
@@ -83,4 +83,7 @@ def read_decimal(text: str) -> str:
         return read_cardinal(int(text))
     int_part, frac_part = text.split(".", 1)
     head = read_cardinal(int(int_part)) if int_part else _DIGITS[0]
+    # A trailing dot with no fraction ("5.") should not leave a dangling 点.
+    if not frac_part:
+        return head
     return f"{head}点{read_digits(frac_part)}"
