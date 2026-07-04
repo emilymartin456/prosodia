@@ -82,6 +82,35 @@ def _cmd_stream(args: argparse.Namespace) -> int:
     return 0
 
 
+def _cmd_emotions(args: argparse.Namespace) -> int:
+    from prosodia.expressive.emotion import get_emotion, list_emotions
+
+    print(f"{'emotion':<10}{'pitch':>7}{'range':>7}{'rate':>7}{'energy':>8}")
+    for name in list_emotions():
+        e = get_emotion(name)
+        print(f"{name:<10}{e.pitch_shift:>7.1f}{e.pitch_range:>7.2f}{e.rate:>7.2f}{e.energy:>8.2f}")
+    return 0
+
+
+def _cmd_bench(args: argparse.Namespace) -> int:
+    import time
+
+    from prosodia import ExpressiveTTS
+    from prosodia.streaming.engine import StreamingEngine
+
+    tts = ExpressiveTTS()
+    engine = StreamingEngine(frontend=tts.frontend, backend=tts.backend, clock=time.perf_counter)
+    audio_total = 0.0
+    wall_total = 0.0
+    for _ in range(args.repeat):
+        _, stats = engine.run(args.text)
+        audio_total += stats.audio_seconds
+        wall_total += stats.wall_seconds
+    rtf = wall_total / audio_total if audio_total else float("inf")
+    print(f"repeats={args.repeat} audio={audio_total:.2f}s wall={wall_total:.3f}s RTF={rtf:.4f}")
+    return 0
+
+
 def _add_say(sub: argparse._SubParsersAction) -> None:
     p = sub.add_parser("say", help="合成语音并写入 WAV")
     p.add_argument("text")
@@ -117,20 +146,32 @@ def _add_stream(sub: argparse._SubParsersAction) -> None:
     p.set_defaults(func=_cmd_stream)
 
 
+def _add_emotions(sub: argparse._SubParsersAction) -> None:
+    p = sub.add_parser("emotions", help="列出内置情感及其韵律参数")
+    p.set_defaults(func=_cmd_emotions)
+
+
+def _add_bench(sub: argparse._SubParsersAction) -> None:
+    p = sub.add_parser("bench", help="测量实时率 RTF")
+    p.add_argument("text", nargs="?", default="你好，世界。今天天气不错，我们出去走走吧。")
+    p.add_argument("--repeat", type=int, default=3)
+    p.set_defaults(func=_cmd_bench)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="prosodia",
         description="情感 / 风格可控的表现力语音合成框架",
     )
-    parser.add_argument(
-        "-V", "--version", action="version", version=f"prosodia {__version__}"
-    )
+    parser.add_argument("-V", "--version", action="version", version=f"prosodia {__version__}")
     sub = parser.add_subparsers(dest="command", metavar="<command>")
     _add_say(sub)
     _add_normalize(sub)
     _add_phonemize(sub)
     _add_prosody(sub)
     _add_stream(sub)
+    _add_emotions(sub)
+    _add_bench(sub)
     return parser
 
 
