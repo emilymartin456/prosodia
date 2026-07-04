@@ -34,7 +34,7 @@ def f0_for_tone(
 ) -> np.ndarray:
     """Return an ``n_frames`` F0 track (Hz) for a single toned syllable."""
     n_frames = max(1, n_frames)
-    shape = np.asarray(TONE_SHAPES.get(tone, TONE_SHAPES[0]), dtype=np.float64)
+    shape: np.ndarray = np.asarray(TONE_SHAPES.get(tone, TONE_SHAPES[0]), dtype=np.float64)
     if shape.size == 1:
         semis = np.full(n_frames, shape[0])
     else:
