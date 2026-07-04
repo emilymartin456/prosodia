@@ -33,5 +33,7 @@ def test_minimum_duration_floor():
 def test_syllable_sums_phones():
     syl = Syllable("ni", [Phone("n"), Phone("i", tone=3, is_vowel=True)], tone=3)
     t = ProsodyTargets()
-    assert np.isclose(syllable_duration(syl, t), phone_duration(syl.phones[0], t)
-                      + phone_duration(syl.phones[1], t))
+    assert np.isclose(
+        syllable_duration(syl, t),
+        phone_duration(syl.phones[0], t) + phone_duration(syl.phones[1], t),
+    )
